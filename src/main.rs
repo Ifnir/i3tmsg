@@ -14,8 +14,6 @@ struct Window {
     urgent: bool,
 }
 
-
-
 fn main() -> Result<()> {
     let output = Command::new("i3-msg").args(["-t", "get_workspaces"]).output().expect("failed to execute process");
 
