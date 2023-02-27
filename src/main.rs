@@ -30,7 +30,7 @@ fn workspace() -> Result<()> {
         if !window.visible {
             works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"works\" \"{}\")", window.name, "unoccupied"));
         }
-        if window.visible {
+        if window.visible && !window.focused {
             works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"works\" \"{}\")", window.name, "occupied"));
         }
         if window.focused {
