@@ -39,7 +39,7 @@ fn workspace() -> Result<()> {
     }
 
     let works_str = works_vec.join("\n\t\t\t");
-    let rust_str = format!("(box :class \"works\" :orientation \"h\" :halign \"center\" :space-evenly \"false\" :spacing \"12\"\n\t{}\n)", works_str);
+    let rust_str = format!("(box :class \"works\" :orientation \"h\" :halign \"start\" :space-evenly \"false\"\n\t{}\n)", works_str);
 
     println!("{}", rust_str);
 
