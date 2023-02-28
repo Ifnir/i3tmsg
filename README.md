@@ -13,6 +13,36 @@ git clone git@github.com:Ifnir/i3tmsg.git
 cd i3tsmg
 cargo build --release
 cd target/release
-./i3tmsg | awk '{print $2}'
 ```
 
+#### Eww Widget
+
+Add this to your .config/eww/scripts folder
+
+```
+(deflisten workspace "scripts/i3tmsg") 
+(defwidget _workspaces []
+  (literal :content {replace(workspace, "sep", "
+   ")})
+)
+```
+
+For the eww.scss file
+```
+.works {
+   
+}
+
+.focused {
+  color: #61AAD6;
+}
+.urgent {
+  color: #f00a0a;
+}
+.unoccupied {
+  color: #ff00ea;
+}
+.occupied {
+  color: #ffffff;
+}
+```
