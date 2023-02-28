@@ -2,12 +2,9 @@
 name = "i3tmsg"
 version = "1.0.0"
 edition = "2021"
-author = ["Ifnir <theifnir@gmail.com"]
 rust-version = "1.67.1"
 readme = "README.md"
 repository = "https://github.com/Ifnir/i3tmsg.git"
-license = "MIT"
-license-file = "LICENSE"
 keywords = ["i3", "eww", "rice"]
 
 
