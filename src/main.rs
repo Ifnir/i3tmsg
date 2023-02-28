@@ -15,7 +15,7 @@ struct Window {
     urgent: bool,
 }
 
-fn workspace() -> Result<()> {
+fn workspace() -> Result<String> {
     let output = Command::new("i3-msg").args(["-t", "get_workspaces"]).output().expect("failed to execute process");
 
     let s = match str::from_utf8(&output.stdout) {
@@ -28,25 +28,24 @@ fn workspace() -> Result<()> {
     let mut works_vec = Vec::new();
     for window in windows {
         if !window.visible {
-            works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"works\" \"{}\")", window.name, "unoccupied"));
+            works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name, "unoccupied", window.name));
         }
         if window.visible && !window.focused {
-            works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"works\" \"{}\")", window.name, "occupied"));
+            works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name, "occupied", window.name));
         }
         if window.focused {
-            works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"works\" \"{}\")", window.name,"focused"));
+            works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name,"focused", window.name));
         }
     }
 
-    let works_str = works_vec.join("\n\t\t\t");
-    let rust_str = format!("(box :class \"works\" :orientation \"h\" :halign \"start\" :space-evenly \"false\"\n\t{}\n)", works_str);
+    let works_str = works_vec.join("sep");
+    let rust_str = format!("{}", works_str);
 
-    println!("{}", rust_str);
-
-    Ok(())
+    Ok(rust_str)
 }
 
 fn main() -> std::io::Result<()> {
+    workspace().map(|msg| println!("(box :class \"works\" :orientation \"h\" :halign \"start\" :space-evenly false {})", msg)).ok();
     let i3_msg_process = Command::new("i3-msg")
     .args(["-t", "subscribe", "-m", r#"["window", "workspace"]"#])
     .stdout(Stdio::piped())
@@ -55,7 +54,7 @@ fn main() -> std::io::Result<()> {
     let reader = BufReader::new(i3_msg_process.stdout.expect("failed to get stdout"));
 
     for _line in reader.lines() {
-        workspace().map_err(|err| println!("{:?}", err)).ok();
+        workspace().map(|msg| println!("(box :class \"works\" :orientation \"h\" :halign \"start\" :space-evenly false {})", msg)).ok();
     }
 
     Ok(())
