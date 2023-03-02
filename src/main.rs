@@ -21,10 +21,10 @@ struct Arg {
 }
 
 fn get_args(len: u8)-> Result<Vec<Arg>> {
-    let mut args_vec = Vec::new();
+    let mut args_vec = Vec::with_capacity(10);
     for i in 1..=len {
         let arg = env::args().nth(i.into()).unwrap_or_default();
-        let icon = if arg.is_empty() { i.to_string() } else { arg };
+        let icon = if arg.is_empty() { "".to_string() } else { arg };
         args_vec.push(Arg {number: i, icon: icon });
     }
     Ok(args_vec)
@@ -45,7 +45,6 @@ fn workspace() -> Result<String> {
     let windows: Vec<Window> = serde_json::from_str(s)?;
 
     let args = get_args(windows.len().try_into().unwrap())?;
-    println!("{:?}", args);
  
     // Make empty mutable vector for strings
     let mut works_vec = Vec::new();
@@ -64,8 +63,17 @@ fn workspace() -> Result<String> {
             if window.visible && !window.focused {
                 works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name, "occupied", icon));
             }
-            if window.focused {
+            if window.focused && window.visible {
                 works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name,"focused", icon));
+            }
+        } else {
+            let icon = if args.iter().all(|a| a.icon.is_empty()) {
+                format!("{}", window.name)
+            } else {
+                args.last().unwrap().icon.clone()
+            };
+            if window.focused {
+                works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name,"focusedtest", icon));
             }
         }
         
