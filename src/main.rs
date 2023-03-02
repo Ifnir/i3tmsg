@@ -73,7 +73,7 @@ fn workspace() -> Result<String> {
                 args.last().unwrap().icon.clone()
             };
             if window.focused {
-                works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name,"focusedtest", icon));
+                works_vec.push(format!("(button :onclick \"i3-msg 'workspace {}'\" :class \"{}\" \"{}\")", window.name,"focused", icon));
             }
         }
         
