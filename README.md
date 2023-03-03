@@ -13,6 +13,7 @@ git clone git@github.com:Ifnir/i3tmsg.git
 cd i3tsmg
 cargo build --release
 cd target/release
+copy i3tmsg to your script folder
 ```
 
 #### Eww Widget
@@ -26,6 +27,11 @@ Add this to your .config/eww/scripts folder
    ")})
 )
 ```
+
+i3tmsg can take arguments like icons
+
+```
+(deflisten workspace "scripts/i3tmsg  s a") 
 
 For the eww.scss file
 ```
