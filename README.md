@@ -32,13 +32,18 @@ i3tmsg can take arguments like icons
 
 ```
 (deflisten workspace "scripts/i3tmsg  s a") 
-
+```
 For the eww.scss file
 ```
 .works {
-   
+  border-radius: 15px;
+  margin-left: 5px;
+  margin-top: 5px;
+  padding-left: 10px;
+  padding-right: 5px;
+  font-size: 20px;
+  margin-right: 20px; 
 }
-
 .focused {
   color: #61AAD6;
 }
